@@ -1,6 +1,16 @@
-mod game;
-
 use crate::util::{read_input, split_string};
+
+fn find_group_badge(input: &str) -> char {
+    let mut lines = input.lines();
+    let first_line = lines.nth(0).unwrap();
+    let second_line = lines.nth(0).unwrap();
+    let third_line = lines.nth(0).unwrap();
+
+    first_line
+        .chars()
+        .find(|c| second_line.contains(*c) && third_line.contains(*c))
+        .unwrap()
+}
 
 fn find_compartment_duplicates(input: &str) -> Vec<char> {
     let (compartment_1, compartment_2) = split_string(input);
@@ -42,8 +52,17 @@ pub fn solve_part_1() -> usize {
 
 pub fn solve_part_2() -> usize {
     let input = read_input("src/day_03/input.txt");
+    let mut lines = input.lines();
+    let mut sum = 0;
 
-    0
+    while let (Some(a), Some(b), Some(c)) = (lines.next(), lines.next(), lines.next()) {
+        let group = format!("{}\n{}\n{}", a, b, c);
+
+        let badge = find_group_badge(&group);
+        sum += item_priority(&badge);
+    }
+
+    sum
 }
 
 #[cfg(test)]
