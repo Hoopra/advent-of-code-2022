@@ -1,1 +1,1 @@
-pub type Position2d = (usize, usize);
+pub type Position2d<T> = (T, T);

@@ -1,8 +1,10 @@
 use crate::model::Position2d;
 use std::{collections::HashMap, ops::Range};
 
+type Position = Position2d<usize>;
+
 pub struct Map2d {
-    tiles: HashMap<Position2d, usize>,
+    tiles: HashMap<Position, usize>,
     size_x: usize,
     size_y: usize,
 }
@@ -32,16 +34,16 @@ impl Map2d {
     }
 }
 
-fn to_x_positions(range: impl Iterator<Item = usize>, y: usize) -> Vec<Position2d> {
+fn to_x_positions(range: impl Iterator<Item = usize>, y: usize) -> Vec<Position> {
     range.map(|x| (x, y)).collect()
 }
 
-fn to_y_positions(range: impl Iterator<Item = usize>, x: usize) -> Vec<Position2d> {
+fn to_y_positions(range: impl Iterator<Item = usize>, x: usize) -> Vec<Position> {
     range.map(|y| (x, y)).collect()
 }
 
 impl Map2d {
-    fn find_visible_trees(&self) -> HashMap<Position2d, bool> {
+    fn find_visible_trees(&self) -> HashMap<Position, bool> {
         let mut visibility = HashMap::new();
 
         for y in 0..=self.size_y {
@@ -68,7 +70,7 @@ impl Map2d {
         &self,
         y: usize,
         rows: Range<usize>,
-        visibility: &mut HashMap<Position2d, bool>,
+        visibility: &mut HashMap<Position, bool>,
     ) {
         let mut max_height = 0;
 
@@ -87,7 +89,7 @@ impl Map2d {
         &self,
         x: usize,
         columns: Range<usize>,
-        visibility: &mut HashMap<Position2d, bool>,
+        visibility: &mut HashMap<Position, bool>,
     ) {
         let mut max_height = 0;
 
@@ -107,7 +109,7 @@ impl Map2d {
         x: usize,
         y: usize,
         max_height: usize,
-        visibility: &mut HashMap<Position2d, bool>,
+        visibility: &mut HashMap<Position, bool>,
     ) -> usize {
         let position = (x, y);
 
@@ -137,7 +139,7 @@ impl Map2d {
         new_max_height
     }
 
-    fn find_scenic_scores(&self) -> HashMap<Position2d, usize> {
+    fn find_scenic_scores(&self) -> HashMap<Position, usize> {
         let mut scores = HashMap::new();
 
         for x in 0..=self.size_x {

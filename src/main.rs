@@ -5,6 +5,7 @@ mod day_04;
 mod day_05;
 mod day_06;
 mod day_08;
+mod day_09;
 mod model;
 mod util;
 
@@ -46,6 +47,10 @@ fn main() {
         8 => {
             println!("part 1: {}", day_08::solve_part_1());
             println!("part 2: {}", day_08::solve_part_2());
+        }
+        9 => {
+            println!("part 1: {}", day_09::solve_part_1());
+            println!("part 2: {}", day_09::solve_part_2());
         }
         _ => {
             println!("not yet solved");
