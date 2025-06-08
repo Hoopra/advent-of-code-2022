@@ -4,6 +4,7 @@ mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
+mod day_07;
 mod day_08;
 mod day_09;
 mod model;
@@ -43,6 +44,10 @@ fn main() {
         6 => {
             println!("part 1: {}", day_06::solve_part_1());
             println!("part 2: {}", day_06::solve_part_2());
+        }
+        7 => {
+            println!("part 1: {}", day_07::solve_part_1());
+            println!("part 2: {}", day_07::solve_part_2());
         }
         8 => {
             println!("part 1: {}", day_08::solve_part_1());
