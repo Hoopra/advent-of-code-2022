@@ -42,7 +42,7 @@ fn main() {
             println!("part 1: {}", day_06::solve_part_1());
             println!("part 2: {}", day_06::solve_part_2());
         }
-        6 => {
+        7 => {
             println!("part 1: {}", day_07::solve_part_1());
             println!("part 2: {}", day_07::solve_part_2());
         }
