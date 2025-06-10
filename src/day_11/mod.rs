@@ -22,20 +22,19 @@ fn simulate_monkey_rounds_from_input(input: &str, rounds: u32) -> u32 {
                 monkey.add_item(passed_item);
             }
         }
-
-        monkeys.iter().for_each(|(num, monkey)| {
-            println!(
-                "monkey {} inspections: {}, items: {}",
-                num,
-                monkey.total_inspections,
-                monkey.count_items()
-            );
-        });
     }
 
-    monkeys
+    let mut inspections: Vec<u32> = monkeys
         .values()
-        .fold(1, |result, monkey| result * monkey.total_inspections)
+        .map(|monkey| monkey.total_inspections)
+        .collect();
+
+    inspections.sort_by(|a, b| b.cmp(a));
+
+    inspections
+        .into_iter()
+        .take(2)
+        .fold(1, |result, next| result * next)
 }
 
 pub fn solve_part_1() -> u32 {
@@ -58,7 +57,7 @@ mod tests {
     fn simulates_1_monkey_round_from_input() {
         let input = "Monkey 0:\nStarting items: 79, 98\nOperation: new = old * 19\nTest: divisible by 23\nIf true: throw to monkey 2\nIf false: throw to monkey 3\n\nMonkey 1:\nStarting items: 54, 65, 75, 74\nOperation: new = old + 6\nTest: divisible by 19\nIf true: throw to monkey 2\nIf false: throw to monkey 0\n\nMonkey 2:\nStarting items: 79, 60, 97\nOperation: new = old * old\nTest: divisible by 13\nIf true: throw to monkey 1\nIf false: throw to monkey 3\n\nMonkey 3:\nStarting items: 74\nOperation: new = old + 3\nTest: divisible by 17\nIf true: throw to monkey 0\nIf false: throw to monkey 1";
 
-        let result = simulate_monkey_rounds_from_input(input, 1);
+        let result = simulate_monkey_rounds_from_input(input, 20);
         assert_eq!(result, 10605);
     }
 }

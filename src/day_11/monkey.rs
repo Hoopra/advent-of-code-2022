@@ -3,7 +3,7 @@ use std::collections::HashMap;
 #[derive(Debug, PartialEq)]
 enum Value {
     Old,
-    Constant(i32),
+    Constant(i64),
 }
 
 impl Value {
@@ -16,7 +16,7 @@ impl Value {
 }
 
 impl Value {
-    fn extract(&self, item_level: i32) -> i32 {
+    fn extract(&self, item_level: i64) -> i64 {
         match self {
             Value::Old => item_level,
             Value::Constant(c) => *c,
@@ -48,7 +48,7 @@ impl MonkeyOperation {
 
 #[derive(Debug, PartialEq)]
 pub struct MonkeyCondition {
-    divisible_test: i32,
+    divisible_test: i64,
     false_recipient: usize,
     true_recipient: usize,
 }
@@ -65,7 +65,7 @@ impl MonkeyCondition {
 
 #[derive(Debug)]
 pub struct Monkey {
-    items: Vec<i32>,
+    pub items: Vec<i64>,
     operation: MonkeyOperation,
     test: MonkeyCondition,
     pub total_inspections: u32,
@@ -91,7 +91,7 @@ impl Monkey {
 }
 
 impl Monkey {
-    fn inspect_item(&mut self) -> (usize, i32) {
+    fn inspect_item(&mut self) -> (usize, i64) {
         let item = self.items.pop().unwrap();
 
         let mut level = match &self.operation {
@@ -124,18 +124,18 @@ impl Monkey {
         }
     }
 
-    pub fn inspect_items(&mut self) -> HashMap<usize, i32> {
-        let mut result = HashMap::new();
+    pub fn inspect_items(&mut self) -> Vec<(usize, i64)> {
+        let mut result = vec![];
 
         for _ in 0..self.items.len() {
             let passed = self.inspect_item();
-            result.insert(passed.0, passed.1);
+            result.push(passed);
         }
 
         result
     }
 
-    pub fn add_item(&mut self, item: i32) {
+    pub fn add_item(&mut self, item: i64) {
         self.items.push(item);
     }
 
@@ -144,7 +144,7 @@ impl Monkey {
     }
 }
 
-fn parse_items(input: &str) -> Vec<i32> {
+fn parse_items(input: &str) -> Vec<i64> {
     let items = input.split("items: ").nth(1).unwrap();
     items
         .split(", ")
@@ -152,7 +152,7 @@ fn parse_items(input: &str) -> Vec<i32> {
         .collect()
 }
 
-fn value_after(input: &str, pattern: &str) -> i32 {
+fn value_after(input: &str, pattern: &str) -> i64 {
     input.split(pattern).nth(1).unwrap().parse().unwrap()
 }
 
